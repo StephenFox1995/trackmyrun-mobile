@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import L from 'leaflet';
+
+import { mapbox } from '../../helpers/url';
+import { LocationService } from '../../providers/location-service';
 
 /**
  * Generated class for the ActivityDisplay page.
@@ -13,12 +17,34 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'activity-display.html',
 })
 export class ActivityDisplay {
+  map: L.Map;
+  center: L.PointTuple;
+  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public locationService: LocationService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ActivityDisplay');
+    this.locationService.getCurrentLocation()
+      .subscribe((lat, lng) => {
+        this.center = [lat, lng];
+        this.initMap();
+    }, (error) => {
+      console.log('An error occurred tracking location');
+    });
+    
+  }
+
+  initMap() {
+    this.map = L.map('map', {
+      center: this.center,
+      zoom: 13
+    });
+
+    L.tileLayer(mapbox, {
+      attribution: '',
+      maxZoom: 18
+    }).addTo(this.map);
   }
 
 }

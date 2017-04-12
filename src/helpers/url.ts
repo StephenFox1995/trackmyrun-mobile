@@ -1,4 +1,5 @@
 import { Headers } from '@angular/http';
+import { mapboxToken } from './tokens';
 
 export let baseurl = 'http://127.0.0.1:8000';
 export let api = '/api'
@@ -20,3 +21,6 @@ export let defaultHeaders = () => {
 }
 
 export let activityEnpoint = `${baseurl}${api}/activity`;
+
+export let mapbox = `https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`;
+

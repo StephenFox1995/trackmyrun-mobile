@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TrackerService } from '../../providers/tracker-service';
-
+import { ActivityDisplay } from '../activity-display/activity-display'
 
 @Component({
   selector: 'page-home',
@@ -24,6 +24,6 @@ export class HomePage {
   }
   
   showActivity() {
-    console.log('should show activity');
+    this.navCtrl.push(ActivityDisplay);
   }
 }
