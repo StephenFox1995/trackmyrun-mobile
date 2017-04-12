@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { activityEnpoint, defaultHeaders } from '../helpers/url';
 import { AuthService } from '../providers/auth-service';
-import 'rxjs/add/operator/map';
+import { Observable } from "rxjs/Observable";
 
 /*
   Generated class for the TrackerService provider.
@@ -12,21 +12,21 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class TrackerService {
-  activities : any;
 
   constructor(public http: Http, public authService: AuthService) { }
   
   public getActivities() {
-    console.log('hekeokfopewkfopewkfopwekjfpoewjfp')
-    let endpoint = activityEnpoint;
-    let headers = defaultHeaders();
-    this.authService.getToken().subscribe(token => {
-      headers.append('Authorization', `Token ${token}`)
-      this.http.get(endpoint, {headers: headers})
-        .map(res => res.json())
-        .subscribe(activities => {
-          this.activities = activities;
-        });
-    });
+    return Observable.create(observer => {
+      let endpoint = activityEnpoint;
+      let headers = defaultHeaders();
+      this.authService.getToken().subscribe(token => {
+        headers.append('Authorization', `Token ${token}`)
+        this.http.get(endpoint, {headers: headers})
+          .map(res => res.json())
+          .subscribe(activities => {
+            observer.next(activities);
+          });
+      });
+    })
   }
 }
