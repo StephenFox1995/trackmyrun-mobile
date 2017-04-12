@@ -8,8 +8,10 @@ import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AuthService } from '../providers/auth-service';
+import { StorageService } from '../providers/storage-service';
 import { Login } from '../pages/login/login';
 import { Register } from '../pages/register/register';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { Register } from '../pages/register/register';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,7 +37,8 @@ import { Register } from '../pages/register/register';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService
+    AuthService,
+    StorageService
   ]
 })
 export class AppModule {}

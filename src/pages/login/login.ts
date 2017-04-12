@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth-service';
 import { Register } from '../register/register';
 import { HomePage } from '../home/home';
 
+
 /**
  * Generated class for the Login page.
  *
@@ -42,11 +43,9 @@ export class Login {
         } else {
           this.showError('Invalid Credentials');
         }
-      },
-      error => {
-        this.showError(error);
-      })
+      });
   }
+
 
   showLoading() {
     this.loading = this.loadingCtrl.create({

@@ -29,17 +29,18 @@ export class Register {
   }
 
   public register() {
-    this.auth.register(this.registerCredentials).subscribe(success => {
-      if (success) {
-        this.createSuccess = true;
+    this.auth.register(this.registerCredentials)
+      .subscribe(success => {
+        if (success) {
+          this.createSuccess = true;
           this.showPopup("Success", "Account created.");
-      } else {
-        this.showPopup("Error", "Problem creating account.");
-      }
-    },
-    error => {
-      this.showPopup("Error", error);
-    });
+        } else {
+          this.showPopup("Error", "Problem creating account.");
+        }
+      },
+      error => {
+        this.showPopup("Error", error);
+      });
   }
 
   showPopup(title, text) {
