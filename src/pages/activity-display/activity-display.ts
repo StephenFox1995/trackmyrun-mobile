@@ -25,10 +25,11 @@ export class ActivityDisplay {
   }
 
   ionViewDidLoad() {
+    this.initMap();
+    this.center = [48.77758, -92.73761];
     this.locationService.getCurrentLocation()
       .subscribe((lat, lng) => {
         this.center = [lat, lng];
-        this.initMap();
     }, (error) => {
       console.log('An error occurred tracking location');
     });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, Loading } from 'ionic-angular';
 import { TrackerService } from '../../providers/tracker-service';
 import { ActivityDisplay } from '../activity-display/activity-display'
 
@@ -8,15 +8,19 @@ import { ActivityDisplay } from '../activity-display/activity-display'
   templateUrl: 'home.html'
 })
 export class HomePage {
+  
   activities : any;
-
-  constructor(public navCtrl: NavController, public trackerService: TrackerService) {
-    
-  }
+  loading: Loading;
+  
+  constructor(public navCtrl: NavController, public trackerService: TrackerService, public loadingCtrl: LoadingController) { }
 
   ionViewDidLoad() {
+    this.showLoading();
     this.trackerService.getActivities()
-      .subscribe(activities => this.activities = activities);
+      .subscribe(activities => {
+        this.activities = activities;
+        this.loading.dismiss();
+      });
   }
 
   newActivity() {
@@ -25,5 +29,12 @@ export class HomePage {
   
   showActivity() {
     this.navCtrl.push(ActivityDisplay);
+  }
+  
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading activities...'
+    });
+    this.loading.present();
   }
 }

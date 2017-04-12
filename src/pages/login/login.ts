@@ -19,7 +19,7 @@ import { HomePage } from '../home/home';
 export class Login {
   
   loading: Loading;
-  registerCredentials = {email: '', password: ''};
+  registerCredentials = {};
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
