@@ -64,12 +64,12 @@ export class AuthService {
       let authEndpoint = tokenAuthEndpoint(username, password)
       this.http.get(authEndpoint)
         .map(res => res.json().token)
-        .map(token => {
-          this.saveToken(token)
-        })
-        .subscribe(saved => {
-          observer.next(true);
+        .subscribe(token => {
+          this.saveToken(token).subscribe(saved => {
+            observer.next(token);
+          });
         }, err => {
+          console.log(err);
           observer.next(false);
         })
     })

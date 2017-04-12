@@ -18,3 +18,5 @@ export let defaultHeaders = () => {
     headers.append('Content-Type', 'application/json');
     return headers;
 }
+
+export let activityEnpoint = `${baseurl}${api}/activity`;

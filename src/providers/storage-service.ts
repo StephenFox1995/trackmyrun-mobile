@@ -25,12 +25,14 @@ export class StorageService {
    */
   public store(key, value) {
     return Observable.create(observer => {
-        this.storage.ready().then(() => {
+      this.storage.ready().then(
+        () => {
           this.storage.set(key, value);
           observer.next(true);
-      }).catch((error) => {
-          observer.error(error);
-      });
+          console.log('token was saved');
+        }).catch((err) => {
+          console.log(err);
+        });
     });
   }
 
@@ -40,11 +42,9 @@ export class StorageService {
    */
   public get(key) {
     return Observable.create(observer => {
-      this.storage.get(key).then((val) => {
-        observer.next(val);
-      }).catch((error) => {
-        observer.error(error);
-      });
+      this.storage.get(key).then(
+        val => { observer.next(val) },
+        err => { observer.error(err) });
     })
   }
 }
