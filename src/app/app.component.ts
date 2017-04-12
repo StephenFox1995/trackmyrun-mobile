@@ -12,8 +12,7 @@ import 'rxjs';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = Login;
-
+  rootPage: any;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, authService: AuthService) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -22,9 +21,11 @@ export class MyApp {
       splashScreen.hide();
       authService.getToken()
         .subscribe(token => {
-
+          if (token) {
+            this.rootPage = HomePage;
+          }
         }, error => {
-
+          this.rootPage = Login;
         });
     });
   }

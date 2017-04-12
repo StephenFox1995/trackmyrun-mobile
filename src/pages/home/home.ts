@@ -18,4 +18,12 @@ export class HomePage {
     this.trackerService.getActivities()
       .subscribe(activities => this.activities = activities);
   }
+
+  newActivity() {
+    console.log('lets start new activity');
+  }
+  
+  showActivity() {
+    console.log('should show activity');
+  }
 }
