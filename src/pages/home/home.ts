@@ -24,12 +24,12 @@ export class HomePage {
       });
   }
 
-  newActivity() {
+  newActivity(activityForDisplay) {
     this.navCtrl.push(NewActivity);
   }
   
-  showActivity() {
-    this.navCtrl.push(ActivityDisplay);
+  showActivity(activityForDisplay) {
+    this.navCtrl.push(ActivityDisplay, { activity: activityForDisplay });
   }
   
   showLoading() {

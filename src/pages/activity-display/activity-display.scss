@@ -1,8 +1,13 @@
 page-activity-display {
-  [noScroll] {
+  .scroll-content {
     overflow: hidden;
   }
-
+  .map-container {
+    width: 100%;
+    position: absolute;
+    top: 150px;
+    bottom: 0px;
+  }
   #map {
     width: 100%;
     height: 100%;
