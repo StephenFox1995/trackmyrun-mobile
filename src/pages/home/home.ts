@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, Loading } from 'ionic-angular';
 import { TrackerService } from '../../providers/tracker-service';
-import { ActivityDisplay } from '../activity-display/activity-display'
+import { ActivityDisplay } from '../activity-display/activity-display';
+import { NewActivity } from '../new-activity/new-activity';
 
 @Component({
   selector: 'page-home',
@@ -24,7 +25,7 @@ export class HomePage {
   }
 
   newActivity() {
-    console.log('lets start new activity');
+    this.navCtrl.push(NewActivity);
   }
   
   showActivity() {

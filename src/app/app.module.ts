@@ -12,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { AuthService } from '../providers/auth-service';
 import { StorageService } from '../providers/storage-service';
 import { Login } from '../pages/login/login';
+import { NewActivity } from '../pages/new-activity/new-activity';
 import { ActivityDisplay } from '../pages/activity-display/activity-display'
 import { Register } from '../pages/register/register';
 import { TrackerService } from '../providers/tracker-service';
@@ -23,7 +24,8 @@ import { LocationService } from '../providers/location-service';
     HomePage,
     Login,
     Register,
-    ActivityDisplay
+    ActivityDisplay,
+    NewActivity
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { LocationService } from '../providers/location-service';
     HomePage,
     Login,
     Register,
-    ActivityDisplay
+    ActivityDisplay,
+    NewActivity
   ],
   providers: [
     StatusBar,

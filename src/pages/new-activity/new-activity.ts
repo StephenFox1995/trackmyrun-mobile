@@ -1,40 +1,33 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { mapLayer } from '../../helpers/url';
 import L from 'leaflet';
 
-import { mapLayer } from '../../helpers/url';
-import { LocationService } from '../../providers/location-service';
-
 /**
- * Generated class for the ActivityDisplay page.
+ * Generated class for the NewActivity page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-activity-display',
-  templateUrl: 'activity-display.html',
+  selector: 'page-new-activity',
+  templateUrl: 'new-activity.html',
 })
-export class ActivityDisplay {
+export class NewActivity {
+  activityName = 'Track My Run| New Activity';
+  activityType: any;
   map: L.Map;
   center: L.PointTuple;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public locationService: LocationService) { }
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  }
 
   ionViewDidLoad() {
     this.center = [48.77758, -92.73761];
     this.initMap();
-    
-    this.locationService.getCurrentLocation()
-      .subscribe((lat, lng) => {
-        this.center = [lat, lng];
-    }, (error) => {
-      console.log('An error occurred tracking location');
-    });
-    
   }
-
+  
   initMap() {
     this.map = L.map('map', {
       center: this.center,

@@ -22,5 +22,5 @@ export let defaultHeaders = () => {
 
 export let activityEnpoint = `${baseurl}${api}/activity`;
 
-export let mapbox = `https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`;
+export let mapLayer = `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
 

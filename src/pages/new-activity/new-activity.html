@@ -1,0 +1,37 @@
+<!--
+  Generated template for the NewActivity page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      <ion-label>{{activityName}}</ion-label>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-label color="primary">Activity Name</ion-label>
+  <ion-input placeholder="Give this activity a name..." [(ngModel)]="activityName"></ion-input>
+
+  <ion-list radio-group [(ngModel)]="activityType">
+    <ion-list-header>
+      Activity Type
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Run</ion-label>
+      <ion-radio value="run"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Walk</ion-label>
+      <ion-radio value="walk"></ion-radio>
+    </ion-item>
+  </ion-list>
+  <button ion-button round outline>Start {{activityType}}</button>
+
+  <div id="map"></div>
+</ion-content>
