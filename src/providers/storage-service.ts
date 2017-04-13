@@ -41,10 +41,19 @@ export class StorageService {
    * @param key The key of the item to retrieve
    */
   public get(key) {
+    console.log('trying to get token');
     return Observable.create(observer => {
       this.storage.get(key).then(
-        val => { observer.next(val) },
-        err => { observer.error(err) });
+        val => { 
+          if (val === null) {
+            observer.error(new Error('No token on device'));  
+          } else {
+            observer.next(val);
+          }
+        },
+        err => { 
+          observer.error(err);
+        });
     })
   }
 }

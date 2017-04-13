@@ -9,6 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { Activity } from '../pages/activity/activity';
 import { AuthService } from '../providers/auth-service';
 import { StorageService } from '../providers/storage-service';
 import { Login } from '../pages/login/login';
@@ -25,7 +26,8 @@ import { LocationService } from '../providers/location-service';
     Login,
     Register,
     ActivityDisplay,
-    NewActivity
+    NewActivity,
+    Activity
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { LocationService } from '../providers/location-service';
     Login,
     Register,
     ActivityDisplay,
-    NewActivity
+    NewActivity,
+    Activity
   ],
   providers: [
     StatusBar,

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { mapLayer } from '../../helpers/url';
-import L from 'leaflet';
+import * as Leaflet from "leaflet";
+
+import { Activity } from '../activity/activity';
 
 /**
  * Generated class for the NewActivity page.
@@ -15,29 +17,37 @@ import L from 'leaflet';
   templateUrl: 'new-activity.html',
 })
 export class NewActivity {
-  activityName = 'Track My Run| New Activity';
+  activityName = 'Track My Run | New Activity';
   activityType: any;
-  map: L.Map;
-  center: L.PointTuple;
+  map: Leaflet.Map;
+  center: Leaflet.PointTuple;
+  marker: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    this.center = [48.77758, -92.73761];
+    this.center = [53.324034, -6.424026000000026];
     this.initMap();
   }
   
   initMap() {
-    this.map = L.map('map', {
+    this.map = Leaflet.map('map', {
       center: this.center,
       zoom: 13
     });
 
-    L.tileLayer(mapLayer, {
+    Leaflet.tileLayer(mapLayer, {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
+    
+    this.marker = Leaflet
+      .marker(this.center, { draggable: true })
+      .addTo(this.map);  
   }
 
+  startActivity() {
+    this.navCtrl.push(Activity);
+  }
 }

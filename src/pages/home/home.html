@@ -9,13 +9,16 @@
 <ion-content padding>
   <button ion-button fab-center round outline (click)="newActivity($event)">New activity</button>
   <ion-list>
-        <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)">
-          <p>{{activity.start}}</p>
-          <p>{{activity.end}}</p>
-          <p>{{activity.activity_type}}</p>
-          <p>{{activity.owner_id}}</p>
-        </ion-item>
-    </ion-list>
-    
+    <ion-list-header>
+      Recent Activities
+    </ion-list-header>
+    <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)">
+      <p>{{activity.start}}</p>
+      <p>{{activity.end}}</p>
+      <p>{{activity.activity_type}}</p>
+      <p>{{activity.owner_id}}</p>
+    </ion-item>
+  </ion-list>
+
 
 </ion-content>
