@@ -4,6 +4,7 @@ import { mapLayer } from '../../helpers/url';
 import * as Leaflet from "leaflet";
 
 import { Activity } from '../activity/activity';
+import { LocationService } from '../../providers/location-service';
 
 /**
  * Generated class for the NewActivity page.
@@ -17,34 +18,49 @@ import { Activity } from '../activity/activity';
   templateUrl: 'new-activity.html',
 })
 export class NewActivity {
-  activityName = 'Track My Run | New Activity';
-  activityType: any;
-  map: Leaflet.Map;
-  center: Leaflet.PointTuple;
-  marker: any;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private activityName = 'Track My Run | New Activity';
+  private activityType: any;
+  private map: Leaflet.Map;
+  private marker: Leaflet.Marker;
+  
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private locationService: LocationService) {
   }
 
   ionViewDidLoad() {
-    this.center = [53.324034, -6.424026000000026];
+    console.log('gonna get location');
+    this.locationService.getCurrentLocation()
+      .subscribe((location) => {
+        this.updateLocation([location.lat, location.lng]);
+      }, err => {
+        console.log('could not located user');
+      })
     this.initMap();
   }
   
-  initMap() {
+  private initMap() {
     this.map = Leaflet.map('map', {
-      center: this.center,
-      zoom: 13
+      center: [0, 0],
+      zoom: 16
     });
 
     Leaflet.tileLayer(mapLayer, {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
-    
-    this.marker = Leaflet
-      .marker(this.center, { draggable: true })
-      .addTo(this.map);  
+  }
+
+  private updateLocation(location) {
+    this.map.panTo(location);
+    if (!this.marker) {
+      this.marker = Leaflet
+        .marker(location)
+        .addTo(this.map);
+    } else {
+      this.marker.setLatLng(location);
+    }
   }
 
   startActivity() {

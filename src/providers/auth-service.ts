@@ -69,7 +69,7 @@ export class AuthService {
             observer.next(token);
           });
         }, err => {
-          console.log(err);
+          console.log(JSON.stringify(err));
           observer.next(false);
         })
     })

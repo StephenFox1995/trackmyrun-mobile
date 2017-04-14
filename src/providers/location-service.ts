@@ -16,12 +16,13 @@ export class LocationService {
   }
   
   getCurrentLocation() {
-    return Observable.create((observer) => {
-      this.geolocation.getCurrentPosition().then((location) => {
-        observer.next(location.coords.latitude, location.coords.longitude);
-      }).catch((error) => {
-        observer.error(error);
-      });
+    return Observable.create(observer => {
+      this.geolocation.getCurrentPosition().then(location => {
+        observer.next({
+          lat: location.coords.latitude, 
+          lng: location.coords.longitude 
+        });
+      }).catch(err => observer.error(err));
     });
   }
 }

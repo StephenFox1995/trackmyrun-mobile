@@ -1,7 +1,6 @@
 import { Headers } from '@angular/http';
-import { mapboxToken } from './tokens';
 
-export let baseurl = 'http://127.0.0.1:8000';
+export let baseurl = 'http://192.168.1.112:8000';
 export let api = '/api'
 
 /**
@@ -20,7 +19,7 @@ export let defaultHeaders = () => {
     return headers;
 }
 
-export let activityEnpoint = `${baseurl}${api}/activity`;
+export let activityEnpoint = `${baseurl}${api}/activity/`;
 
 export let mapLayer = `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
 

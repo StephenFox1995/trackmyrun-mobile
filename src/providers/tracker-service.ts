@@ -20,11 +20,15 @@ export class TrackerService {
       let endpoint = activityEnpoint;
       let headers = defaultHeaders();
       this.authService.getToken().subscribe(token => {
+        console.log(endpoint);
         headers.append('Authorization', `Token ${token}`)
-        this.http.get(endpoint, {headers: headers})
+        this.http.get(endpoint, { headers: headers })
           .map(res => res.json())
           .subscribe(activities => {
             observer.next(activities);
+          }, 
+          err => {
+            observer.error(err);
           });
       });
     })
