@@ -23,9 +23,9 @@ export class TrackerService {
         console.log(endpoint);
         headers.append('Authorization', `Token ${token}`)
         this.http.get(endpoint, { headers: headers })
-          .map(res => res.json())
+          .map(res => ({ features: res.json().features }))
           .subscribe(activities => {
-            observer.next(activities);
+            observer.next(activities.features);
           }, 
           err => {
             observer.error(err);

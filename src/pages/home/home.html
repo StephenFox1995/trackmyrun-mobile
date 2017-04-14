@@ -13,10 +13,10 @@
       Recent Activities
     </ion-list-header>
     <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)">
-      <p>{{activity.start}}</p>
-      <p>{{activity.end}}</p>
-      <p>{{activity.activity_type}}</p>
-      <p>{{activity.owner_id}}</p>
+      <p>{{activity.properties.start}}</p>
+      <p>{{activity.properties.end}}</p>
+      <p>{{activity.properties.activity_type}}</p>
+      <p>{{activity.properties.owner_id}}</p>
     </ion-item>
   </ion-list>
 

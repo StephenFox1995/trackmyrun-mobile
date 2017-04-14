@@ -23,6 +23,7 @@ export class HomePage {
     this.showLoading();
     this.trackerService.getActivities()
       .subscribe(activities => {
+        console.log(JSON.stringify(activities));
         this.activities = activities;
         this.loading.dismiss();
       }, err => {

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as Leaflet from "leaflet";
+import * as GeoJSON from 'geojson';
 
 import { mapLayer } from '../../helpers/url';
 import { LocationService } from '../../providers/location-service';
+
 
 /**
  * Generated class for the ActivityDisplay page.
@@ -17,8 +19,8 @@ import { LocationService } from '../../providers/location-service';
   templateUrl: 'activity-display.html',
 })
 export class ActivityDisplay {
-  map: Leaflet.Map;
-  center: Leaflet.PointTuple;
+  private map: Leaflet.Map;
+  private center: Leaflet.PointTuple;
   activity: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public locationService: LocationService) { 
@@ -37,6 +39,10 @@ export class ActivityDisplay {
     })
   }
 
+  private drawActivityRoute(locations) {
+
+  }
+
   initMap() {
     this.map = Leaflet.map('map', {
       center: this.center,
@@ -47,6 +53,9 @@ export class ActivityDisplay {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
+
+    
+    Leaflet.geoJSON(this.activity).addTo(this.map);
   }
 
 }

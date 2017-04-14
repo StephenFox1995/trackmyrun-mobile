@@ -31,6 +31,7 @@ export class Activity {
     public navParams: NavParams, 
     private locationService: LocationService) {  }
 
+
   ionViewDidLoad() {
     this.initMap();
     this.startTimer();
@@ -82,7 +83,12 @@ export class Activity {
     return time.toISOString().slice(14, 22);
   }
   
-  stopTimer() {
+  private stopTimer() {
     this.endTime = Date.now();
+  }
+
+  finishActivity() {
+    this.stopTimer();
+    // upload dat to database.
   }
 }
