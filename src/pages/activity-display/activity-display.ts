@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as Leaflet from "leaflet";
-import * as GeoJSON from 'geojson';
 
 import { mapLayer } from '../../helpers/url';
 import { LocationService } from '../../providers/location-service';
@@ -28,7 +27,6 @@ export class ActivityDisplay {
   }
 
   ionViewDidLoad() {
-    this.center = [48.77758, -92.73761];
     this.initMap();
     
     this.locationService.getCurrentLocation()
@@ -44,9 +42,10 @@ export class ActivityDisplay {
   }
 
   initMap() {
+    console.log()
     this.map = Leaflet.map('map', {
-      center: this.center,
-      zoom: 13
+      center: [this.activity.geometry.coordinates[0][0][1], this.activity.geometry.coordinates[0][0][0]],
+      zoom: 15
     });
 
     Leaflet.tileLayer(mapLayer, {
@@ -54,7 +53,6 @@ export class ActivityDisplay {
       maxZoom: 18
     }).addTo(this.map);
 
-    
     Leaflet.geoJSON(this.activity).addTo(this.map);
   }
 
