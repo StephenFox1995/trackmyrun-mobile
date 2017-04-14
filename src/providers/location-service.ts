@@ -25,4 +25,16 @@ export class LocationService {
       }).catch(err => observer.error(err));
     });
   }
+
+  watchLocation() {
+    return Observable.create(observer => {
+      this.geolocation.watchPosition()
+      .filter(location => location !== undefined)
+      .map(location => ({ lat: location.coords.latitude, lng: location.coords.longitude }))
+      .subscribe(coords => {
+        observer.next(coords);
+      }, 
+      err => observer.error(err));
+    });
+  }
 }

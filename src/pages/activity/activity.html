@@ -4,8 +4,8 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 <ion-header>
-
   <ion-navbar>
     <ion-title>Insert name here</ion-title>
   </ion-navbar>
@@ -13,8 +13,10 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="scroll-content">
   <h1>Current Time: {{activityTime}}</h1>
   <button ion-button round outline (click)="pause()">Pause </button>
   <button ion-button round outline (click)="stop()">Stop</button>
+  <div id="map"></div>
+  
 </ion-content>

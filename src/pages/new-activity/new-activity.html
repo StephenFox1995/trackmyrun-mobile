@@ -4,11 +4,10 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <ion-label>{{activityName}}</ion-label>
+      <ion-label>New Activity</ion-label>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -18,7 +17,7 @@
   <ion-label color="primary">Activity Name</ion-label>
   <ion-input placeholder="Give this activity a name..." [(ngModel)]="activityName"></ion-input>
   
-  <ion-label color="primary">Activity Type</ion-label>
+  <ion-label color="primary">Select Activity Type</ion-label>
   <ion-list radio-group [(ngModel)]="activityType">
     <ion-item>
       <ion-label>Run</ion-label>
@@ -29,7 +28,6 @@
       <ion-radio value="walk"></ion-radio>
     </ion-item>
   </ion-list>
-  <div id="map"></div>
   <button ion-button align-center round outline (click)="startActivity()">Start {{activityType}}</button>
   
 </ion-content>
