@@ -37,10 +37,6 @@ export class ActivityDisplay {
     })
   }
 
-  private drawActivityRoute(locations) {
-
-  }
-
   initMap() {
     console.log()
     this.map = Leaflet.map('map', {

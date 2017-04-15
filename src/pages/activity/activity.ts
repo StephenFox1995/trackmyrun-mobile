@@ -5,8 +5,11 @@ import { mapLayer } from '../../helpers/url';
 
 import { Observable } from "rxjs/Observable";
 import * as Leaflet from "leaflet";
+import 'geojson';
 
 import { LocationService } from '../../providers/location-service';
+import { GeojsonService } from '../../providers/geojson-service';
+
 /**
  * Generated class for the Activity page.
  *
@@ -22,14 +25,15 @@ export class Activity {
   activityTime: any;
   private startTime: number;
   private endTime: number;
-  private locations = [];
+  private route = [];
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    private locationService: LocationService) {  }
+    private locationService: LocationService,
+    private geojsonService: GeojsonService) {  }
 
 
   ionViewDidLoad() {
@@ -73,8 +77,8 @@ export class Activity {
     this.locationService.watchLocation()
       .subscribe(coords => {
         this.updateLocation(coords)
-        this.locations.push(location);
-        console.log(location);
+        this.route.push([coords.lng, coords.lat])
+        console.log('lng: ' + coords.lng + ' lat:' + coords.lat);
       }, 
       err => console.log('error occurred while tracking location'));
   }
@@ -89,6 +93,6 @@ export class Activity {
 
   finishActivity() {
     this.stopTimer();
-    // upload dat to database.
+    console.log(JSON.stringify(this.geojsonService.lineStringGeoJSON(this.route, {})));
   }
 }
