@@ -9,6 +9,7 @@ import 'geojson';
 
 import { LocationService } from '../../providers/location-service';
 import { GeojsonService } from '../../providers/geojson-service';
+import { StorageService } from '../../providers/storage-service';
 
 /**
  * Generated class for the Activity page.
@@ -28,12 +29,18 @@ export class Activity {
   private route = [];
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
+  private activity: any;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private locationService: LocationService,
-    private geojsonService: GeojsonService) {  }
+    private geojsonService: GeojsonService,
+    private storageService: StorageService) {  
+      this.activity = this.navParams.get('activity');
+      // save this activity first, as coordinates will be added to it later.
+      this.storageService.store('activity', this.activity);
+    }
 
 
   ionViewDidLoad() {
@@ -57,7 +64,6 @@ export class Activity {
       center: [0, 0],
       zoom: 16
     });
-
     Leaflet.tileLayer(mapLayer, {
       attribution: '',
       maxZoom: 18
@@ -76,13 +82,16 @@ export class Activity {
   private startLocating() {
     this.locationService.watchLocation()
       .subscribe(coords => {
-        this.updateLocation(coords)
-        this.route.push([coords.lng, coords.lat])
-        console.log('lng: ' + coords.lng + ' lat:' + coords.lat);
+        this.updateLocation(coords);
+        this.route.push([coords.lng, coords.lat]);
+        this.saveCoords([coords.lng, coords.lat]);
       }, 
       err => console.log('error occurred while tracking location'));
   }
 
+  private saveCoords(coords) {
+    // this.storageService.get('activity')
+  }
   private humanReadableTime(time) {
     return time.toISOString().slice(14, 22);
   }

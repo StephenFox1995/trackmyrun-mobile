@@ -29,4 +29,20 @@ export class GeojsonService {
       ]
     }
   }
+
+  lineStringGeoJSONTemplate() {
+    return { 
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'MultiLineString',
+            coordinates: []
+          },
+          properties: {}
+        }
+      ]
+    }
+  }
 }

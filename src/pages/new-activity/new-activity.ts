@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import * as Leaflet from "leaflet";
 
 import { Activity } from '../activity/activity';
-
+import { ActivityModel } from '../../models/activity-model';
 
 /**
  * Generated class for the NewActivity page.
@@ -19,19 +19,35 @@ import { Activity } from '../activity/activity';
 export class NewActivity {
   private activityName = '';
   private activityType: any;
-  
+  private activity: ActivityModel;
+
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
+    public navParams: NavParams,
+    private alertCtrl: AlertController) {
+      this.activity = new ActivityModel();
   }
   
-
+  private showAlert(text) {
+    let alert = this.alertCtrl.create({
+      title: 'Fail',
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present(prompt);
+  }
+  
   startActivity() {
-    this.navCtrl.push(Activity);
-  }
-  
-  
+    if (!this.activityName) {
+      this.showAlert('Please give name for this activity');
+      return
+    }
+    if (!this.activityType) {
+      this.showAlert('Please select activity type');
+      return
+    }
+    this.navCtrl.push(Activity, { 
+      activity: this.activity
+    });
+  }  
 }
