@@ -29,7 +29,6 @@ export class StorageService {
         () => {
           this.storage.set(key, value);
           observer.next(true);
-          console.log('token was saved');
         }).catch((err) => {
           console.log(err);
         });
@@ -41,7 +40,6 @@ export class StorageService {
    * @param key The key of the item to retrieve
    */
   public get(key) {
-    console.log('trying to get token');
     return Observable.create(observer => {
       this.storage.get(key).then(
         val => { 
@@ -55,5 +53,9 @@ export class StorageService {
           observer.error(err);
         });
     })
+  }
+
+  public remove(key) {
+    this.storage.remove(key);
   }
 }

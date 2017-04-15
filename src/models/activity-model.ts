@@ -27,7 +27,9 @@ export class ActivityModel {
   addCoordinates(lng, lat) {
     this.route.features[0].geometry.coordinates[0].push([lng, lat]);
   }
-
+  getGeoJSON() {
+    return this.route;
+  }
   setUser(userID) {
     this.userID = userID;
   }
@@ -42,8 +44,11 @@ export class ActivityModel {
     return this.name;
   }
   setType(type) {
-    if (type !== 'RUN' || type !== 'WALK') {
-      throw(new Error('Invalid ActivityMode type'))
+    if (type === 'RUN' || type === 'WALK') {
+      this.type = type;
+      this.addToGeoJSONProperties('activity_type', type);
+    } else {
+      throw(new Error(`${type} is an invalid ActivityModel type`))
     }
     this.type = type;
     this.addToGeoJSONProperties('activity_type', type);

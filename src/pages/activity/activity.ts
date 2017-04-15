@@ -10,7 +10,7 @@ import 'geojson';
 import { LocationService } from '../../providers/location-service';
 import { GeojsonService } from '../../providers/geojson-service';
 import { StorageService } from '../../providers/storage-service';
-
+import { ActivityModel } from '../../models/activity-model';
 /**
  * Generated class for the Activity page.
  *
@@ -29,7 +29,8 @@ export class Activity {
   private route = [];
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
-  private activity: any;
+  private activity: ActivityModel;
+  private ACTIVITY_KEY = 'ACTIVITY';
 
   constructor(
     public navCtrl: NavController, 
@@ -39,7 +40,7 @@ export class Activity {
     private storageService: StorageService) {  
       this.activity = this.navParams.get('activity');
       // save this activity first, as coordinates will be added to it later.
-      this.storageService.store('activity', this.activity);
+      this.saveActvity();
     }
 
 
@@ -71,26 +72,28 @@ export class Activity {
   }
 
   private updateLocation(location) {
+    this.activity.addCoordinates(location.lng, location.lat);
+    this.saveActvity();
     this.map.panTo(location);
     if (!this.marker) {
       this.marker = Leaflet.marker(location).addTo(this.map)
     } else {
       this.marker.setLatLng(location);
     }
+    Leaflet.geoJSON(this.activity.getGeoJSON()).addTo(this.map);
   }
 
   private startLocating() {
     this.locationService.watchLocation()
       .subscribe(coords => {
         this.updateLocation(coords);
-        this.route.push([coords.lng, coords.lat]);
-        this.saveCoords([coords.lng, coords.lat]);
       }, 
       err => console.log('error occurred while tracking location'));
   }
 
-  private saveCoords(coords) {
-    // this.storageService.get('activity')
+  private saveActvity() {
+    this.storageService.remove(this.ACTIVITY_KEY);
+    this.storageService.store(this.ACTIVITY_KEY, this.activity);
   }
   private humanReadableTime(time) {
     return time.toISOString().slice(14, 22);
@@ -102,6 +105,7 @@ export class Activity {
 
   finishActivity() {
     this.stopTimer();
-    console.log(JSON.stringify(this.geojsonService.lineStringGeoJSON(this.route, {})));
+    let activity = this.storageService.get(this.ACTIVITY_KEY);
+    console.log(JSON.stringify(activity.getGeoJSON()));
   }
 }

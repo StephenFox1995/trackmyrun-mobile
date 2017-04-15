@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import * as Leaflet from "leaflet";
 
 import { Activity } from '../activity/activity';
 import { ActivityModel } from '../../models/activity-model';
@@ -39,13 +38,15 @@ export class NewActivity {
   
   startActivity() {
     if (!this.activityName) {
-      this.showAlert('Please give name for this activity');
+      this.showAlert('Please give a name for this activity');
       return
     }
     if (!this.activityType) {
       this.showAlert('Please select activity type');
       return
     }
+    this.activity.setName(this.activityName);
+    this.activity.setType(this.activityType);
     this.navCtrl.push(Activity, { 
       activity: this.activity
     });

@@ -17,7 +17,7 @@ export class HomePage {
     public navCtrl: NavController, 
     public trackerService: TrackerService, 
     public loadingCtrl: LoadingController, 
-    private alertCtrl: AlertController, ) { }
+    private alertCtrl: AlertController) { }
 
   ionViewDidLoad() {
     this.showLoading();
