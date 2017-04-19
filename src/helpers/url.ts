@@ -1,13 +1,13 @@
 import { Headers } from '@angular/http';
 
-export let baseurl = 'http://192.168.1.112:8000';
+export let baseurl = 'http://Stephens-MacBook-Pro-4.local:8000';
 export let api = '/api'
 
 /**
  * Authenticate via rest api for a token.
  */
 export let tokenAuthEndpoint = function(username, password) {
-    return `${baseurl}${api}/token-auth/?username=${username}&password=${password}`
+    return `${baseurl}${api}/token-auth/?username=${username}&password=${password}`;
 }
 
 export let registerEndpoint = `${baseurl}${api}/register`;

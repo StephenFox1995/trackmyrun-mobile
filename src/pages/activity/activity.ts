@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { mapLayer } from '../../helpers/url';
 
 import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 import * as Leaflet from "leaflet";
 import 'geojson';
 
@@ -24,13 +25,15 @@ import { ActivityModel } from '../../models/activity-model';
 })
 export class Activity {
   activityTime: any;
-  private startTime: number;
-  private endTime: number;
-  private route = [];
+  activityName: any;
+  private startTime: Date;
+  private endTime: Date;
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
   private activity: ActivityModel;
   private ACTIVITY_KEY = 'ACTIVITY';
+  private locationSubScription: Subscription;
+  private timerSubscritpion: Subscription;
 
   constructor(
     public navCtrl: NavController, 
@@ -39,6 +42,7 @@ export class Activity {
     private geojsonService: GeojsonService,
     private storageService: StorageService) {  
       this.activity = this.navParams.get('activity');
+      this.activityName = this.activity.getName();
       // save this activity first, as coordinates will be added to it later.
       this.saveActvity();
     }
@@ -48,16 +52,6 @@ export class Activity {
     this.initMap();
     this.startTimer();
     this.startLocating();
-  }
-
-  private startTimer() {
-    this.startTime = Date.now();
-    Observable
-      .interval(100)
-      .timeInterval()
-      .subscribe(total => {
-        this.activityTime = total.value;
-      });
   }
   
   private initMap() {
@@ -71,41 +65,66 @@ export class Activity {
     }).addTo(this.map);
   }
 
+  private startTimer() {
+    this.startTime = new Date();
+    this.timerSubscritpion = Observable
+      .interval(100)
+      .timeInterval()
+      .subscribe(total => {
+        this.activityTime = total.value;
+      });
+  }
+  
+  private startLocating() {
+    this.locationSubScription = this.locationService.watchLocation()
+      .subscribe(coords => {
+        this.updateLocation(coords);
+      }, err => console.log('error occurred while tracking location'));
+  }
+
   private updateLocation(location) {
     this.activity.addCoordinates(location.lng, location.lat);
-    this.saveActvity();
     this.map.panTo(location);
     if (!this.marker) {
-      this.marker = Leaflet.marker(location).addTo(this.map)
+      this.marker = Leaflet.marker(location).addTo(this.map);
     } else {
       this.marker.setLatLng(location);
     }
     Leaflet.geoJSON(this.activity.getGeoJSON()).addTo(this.map);
-  }
-
-  private startLocating() {
-    this.locationService.watchLocation()
-      .subscribe(coords => {
-        this.updateLocation(coords);
-      }, 
-      err => console.log('error occurred while tracking location'));
+    this.saveActvity();
   }
 
   private saveActvity() {
-    this.storageService.remove(this.ACTIVITY_KEY);
-    this.storageService.store(this.ACTIVITY_KEY, this.activity);
+    this.storageService.store(this.ACTIVITY_KEY, this.activity)
+      .subscribe(
+        success => console.log('successfully save', 
+        err => console.log('an error occurred'))
+      );
   }
+
   private humanReadableTime(time) {
     return time.toISOString().slice(14, 22);
   }
   
   private stopTimer() {
-    this.endTime = Date.now();
+    this.endTime = new Date();
+  }
+
+  private unsubcribe() {
+    this.locationSubScription.unsubscribe();
+    this.timerSubscritpion.unsubscribe();
   }
 
   finishActivity() {
     this.stopTimer();
-    let activity = this.storageService.get(this.ACTIVITY_KEY);
-    console.log(JSON.stringify(activity.getGeoJSON()));
+    this.unsubcribe();
+    
+    this.storageService.get(this.ACTIVITY_KEY)
+      .subscribe(activity => {
+        this.activity.setEnd(this.endTime.toISOString());
+        console.log(JSON.stringify(this.activity));
+      }, err => {
+        console.log('an error occurred when finishing');
+      });
   }
 }
