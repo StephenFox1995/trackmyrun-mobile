@@ -71,7 +71,8 @@ export class Activity {
       .interval(100)
       .timeInterval()
       .subscribe(total => {
-        this.activityTime = total.value;
+        this.activityTime = this.humanReadableTime(total.value);
+        
       });
   }
   
@@ -97,13 +98,14 @@ export class Activity {
   private saveActvity() {
     this.storageService.store(this.ACTIVITY_KEY, this.activity)
       .subscribe(
-        success => console.log('successfully save', 
-        err => console.log('an error occurred'))
+        success => console.log('successfully save'), 
+        err => console.log('an error occurred')
       );
   }
 
   private humanReadableTime(time) {
-    return time.toISOString().slice(14, 22);
+    console.log(time);
+    return moment(time).format('mm:ss:SSS');
   }
   
   private stopTimer() {
@@ -122,7 +124,7 @@ export class Activity {
     this.storageService.get(this.ACTIVITY_KEY)
       .subscribe(activity => {
         this.activity.setEnd(this.endTime.toISOString());
-        console.log(JSON.stringify(this.activity));
+        // console.log(JSON.stringify(this.activity));
       }, err => {
         console.log('an error occurred when finishing');
       });
