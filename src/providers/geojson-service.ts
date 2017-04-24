@@ -16,33 +16,23 @@ export class GeojsonService {
 
   lineStringGeoJSON(coordinates, properties) {
     return { 
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'MultiLineString',
-            coordinates: [coordinates]
-          },
-          properties: properties
-        }
-      ]
+      type: 'Feature',
+      geometry: {
+        type: 'MultiLineString',
+        coordinates: [coordinates]
+      },
+      properties: properties
     }
   }
 
   lineStringGeoJSONTemplate() {
     return { 
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'MultiLineString',
-            coordinates: []
-          },
-          properties: {}
-        }
-      ]
+      type: 'Feature',
+      geometry: {
+        type: 'MultiLineString',
+        coordinates: []
+      },
+      properties: {}
     }
   }
 }

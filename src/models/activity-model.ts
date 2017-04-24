@@ -5,27 +5,22 @@ export class ActivityModel {
   private start: Date;
   private end: Date;
   private route = { 
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'MultiLineString',
-          coordinates: [[]]
-        },
-        properties: {}
-      }
-    ]
+    type: 'Feature',
+    geometry: {
+      type: 'MultiLineString',
+      coordinates: [[]]
+    },
+    properties: {}
   }
 
   constructor() { }
 
   private addToGeoJSONProperties(name, data) {
-    this.route.features[0].properties[name] = data;
+    this.route.properties[name] = data;
   }
 
   addCoordinates(lng, lat) {
-    this.route.features[0].geometry.coordinates[0].push([lng, lat]);
+    this.route.geometry.coordinates[0].push([lng, lat]);
   }
   getGeoJSON() {
     return this.route;
@@ -69,5 +64,8 @@ export class ActivityModel {
   }
   getEnd() {
     return this.end;
+  }
+  asGeoJSON() {
+    return this.route;
   }
 }

@@ -12,6 +12,7 @@ import { LocationService } from '../../providers/location-service';
 import { GeojsonService } from '../../providers/geojson-service';
 import { StorageService } from '../../providers/storage-service';
 import { ActivityModel } from '../../models/activity-model';
+import { TrackerService } from '../../providers/tracker-service';
 /**
  * Generated class for the Activity page.
  *
@@ -40,7 +41,8 @@ export class Activity {
     public navParams: NavParams, 
     private locationService: LocationService,
     private geojsonService: GeojsonService,
-    private storageService: StorageService) {  
+    private storageService: StorageService,
+    private trackerService: TrackerService) {  
       this.activity = this.navParams.get('activity');
       this.activityName = this.activity.getName();
       // save this activity first, as coordinates will be added to it later.
@@ -72,7 +74,6 @@ export class Activity {
       .timeInterval()
       .subscribe(total => {
         this.activityTime = this.humanReadableTime(total.value);
-        
       });
   }
   
@@ -123,8 +124,12 @@ export class Activity {
     
     this.storageService.get(this.ACTIVITY_KEY)
       .subscribe(activity => {
+        this.activity.setStart(this.startTime);
         this.activity.setEnd(this.endTime.toISOString());
-        // console.log(JSON.stringify(this.activity));
+        const geojsonActivity = this.activity.asGeoJSON();
+        this.trackerService.uploadActivity(geojsonActivity)
+          .then(sucess => console.log(sucess))
+          .catch(err => console.log(err))
       }, err => {
         console.log('an error occurred when finishing');
       });

@@ -20,7 +20,6 @@ export class TrackerService {
       let endpoint = activityEnpoint;
       let headers = defaultHeaders();
       this.authService.getToken().subscribe(token => {
-        console.log(endpoint);
         headers.append('Authorization', `Token ${token}`)
         this.http.get(endpoint, { headers: headers })
           .map(res => ({ features: res.json().features }))
@@ -32,5 +31,17 @@ export class TrackerService {
           });
       });
     })
+  }
+
+  public uploadActivity(activity) {
+    let headers = defaultHeaders();
+    let endpoint = activityEnpoint;
+    return new Promise((res, rej) => {
+      this.authService.getToken().subscribe(token => {
+        headers.append('Authorization', `Token ${token}`)
+        this.http.post(endpoint, activity, { headers: headers })
+          .subscribe(success => res, err => rej)
+      })
+    });
   }
 }
