@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { 
+  IonicPage, 
+  NavController, 
+  NavParams,  
+  LoadingController, 
+  Loading, 
+  AlertController 
+} from 'ionic-angular';
 import * as moment from 'moment';
 import { mapLayer } from '../../helpers/url';
 
@@ -35,6 +42,7 @@ export class Activity {
   private ACTIVITY_KEY = 'ACTIVITY';
   private locationSubScription: Subscription;
   private timerSubscritpion: Subscription;
+  private loading: Loading;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,7 +50,9 @@ export class Activity {
     private locationService: LocationService,
     private geojsonService: GeojsonService,
     private storageService: StorageService,
-    private trackerService: TrackerService) {  
+    private trackerService: TrackerService,
+    public loadingCtrl: LoadingController,
+    private alertCtrl: AlertController) {  
       this.activity = this.navParams.get('activity');
       this.activityName = this.activity.getName();
       // save this activity first, as coordinates will be added to it later.
@@ -97,15 +107,10 @@ export class Activity {
   }
 
   private saveActvity() {
-    this.storageService.store(this.ACTIVITY_KEY, this.activity)
-      .subscribe(
-        success => console.log('successfully save'), 
-        err => console.log('an error occurred')
-      );
+    this.storageService.store(this.ACTIVITY_KEY, this.activity).subscribe();
   }
 
   private humanReadableTime(time) {
-    console.log(time);
     return moment(time).format('mm:ss:SSS');
   }
   
@@ -113,25 +118,49 @@ export class Activity {
     this.endTime = new Date();
   }
 
-  private unsubcribe() {
+  private unsubcribeAll() {
     this.locationSubScription.unsubscribe();
     this.timerSubscritpion.unsubscribe();
   }
 
   finishActivity() {
     this.stopTimer();
-    this.unsubcribe();
+    this.unsubcribeAll();
     
     this.storageService.get(this.ACTIVITY_KEY)
       .subscribe(activity => {
         this.activity.setStart(this.startTime);
         this.activity.setEnd(this.endTime.toISOString());
         const geojsonActivity = this.activity.asGeoJSON();
+        this.showLoading();
         this.trackerService.uploadActivity(geojsonActivity)
-          .then(sucess => console.log(sucess))
-          .catch(err => console.log(err))
+          .then(sucess => {
+            this.loading.dismiss()
+            this.navCtrl.popAll()
+          })
+          .catch(err => this.showAlert('Fail', 'Could not upload activity.'))
       }, err => {
         console.log('an error occurred when finishing');
       });
+  }
+  
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Upload activity...'
+    });
+    this.loading.present();
+  }
+
+  showAlert(title, text) {
+    setTimeout(() => {
+      this.loading.dismiss();
+    });
+ 
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present(prompt);
   }
 }

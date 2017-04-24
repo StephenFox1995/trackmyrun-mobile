@@ -40,7 +40,7 @@ export class TrackerService {
       this.authService.getToken().subscribe(token => {
         headers.append('Authorization', `Token ${token}`)
         this.http.post(endpoint, activity, { headers: headers })
-          .subscribe(success => res, err => rej)
+          .subscribe(res, rej)
       })
     });
   }

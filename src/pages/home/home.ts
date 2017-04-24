@@ -11,7 +11,7 @@ import { NewActivity } from '../new-activity/new-activity';
 export class HomePage {
   
   activities : any;
-  loading: Loading;
+  private loading: Loading;
   
   constructor(
     public navCtrl: NavController, 
@@ -20,6 +20,10 @@ export class HomePage {
     private alertCtrl: AlertController) { }
 
   ionViewDidLoad() {
+    this.triggerNetworkLoad();
+  }
+
+  private triggerNetworkLoad() {
     this.showLoading();
     this.trackerService.getActivities()
       .subscribe(activities => {
@@ -56,5 +60,9 @@ export class HomePage {
       buttons: ['OK']
     });
     alert.present(prompt);
+  }
+
+  refresh() {
+    this.triggerNetworkLoad();
   }
 }
