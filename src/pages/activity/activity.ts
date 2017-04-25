@@ -136,7 +136,7 @@ export class Activity {
         this.trackerService.uploadActivity(geojsonActivity)
           .then(sucess => {
             this.loading.dismiss()
-            this.navCtrl.popAll()
+            this.navCtrl.popTo(this.navCtrl.first())
           })
           .catch(err => this.showAlert('Fail', 'Could not upload activity.'))
       }, err => {
