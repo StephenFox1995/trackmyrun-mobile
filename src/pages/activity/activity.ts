@@ -36,7 +36,7 @@ export class Activity {
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
   private activity: ActivityModel;
-  private length: number;
+  private distance: number;
   private ACTIVITY_KEY = 'ACTIVITY';
   private locationSubScription: Subscription;
   private timerSubscritpion: Subscription;
@@ -93,7 +93,7 @@ export class Activity {
 
   private updateLocation(location) {
     this.activity.addCoordinates(location.lng, location.lat);
-    this.length = this.activity.length;
+    this.distance = this.activity.distance;
     this.map.panTo(location);
     if (!this.marker) {
       this.marker = Leaflet.marker(location).addTo(this.map);

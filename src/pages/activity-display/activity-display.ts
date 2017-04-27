@@ -40,7 +40,7 @@ export class ActivityDisplay {
   initMap() {
     console.log()
     this.map = Leaflet.map('map', {
-      center: [this.activity.geometry.coordinates[0][0][1], this.activity.geometry.coordinates[0][0][0]],
+      center: [this.activity.geometry.coordinates[0][1], this.activity.geometry.coordinates[0][0]],
       zoom: 15
     });
 

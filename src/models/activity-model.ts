@@ -7,21 +7,22 @@ export class ActivityModel {
   private userID: number;
   private start: Date;
   private end: Date;
-  length: number;
+  distance: number;
   private route: Feature<LineString>;
 
   constructor() { 
     this.route = lineString([]);
+    this.addToGeoJSONProperties('kilometers', 0)
   }
 
   private addToGeoJSONProperties(name, data) {
-    console.log(this.route);
     this.route.properties[name] = data;
   }
 
   addCoordinates(lng, lat) {
     this.route.geometry.coordinates.push([lng, lat]);
-    this.length = lineDistance(this.route, 'kilometers');
+    this.route.properties['distance'] = lineDistance(this.route, 'kilometers');
+    this.distance = this.route.properties['distance'];
   }
   getGeoJSON() {
     return this.route;
