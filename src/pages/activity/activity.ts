@@ -13,10 +13,7 @@ import { mapLayer } from '../../helpers/url';
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 import * as Leaflet from "leaflet";
-import 'geojson';
-
 import { LocationService } from '../../providers/location-service';
-import { GeojsonService } from '../../providers/geojson-service';
 import { StorageService } from '../../providers/storage-service';
 import { ActivityModel } from '../../models/activity-model';
 import { TrackerService } from '../../providers/tracker-service';
@@ -39,6 +36,7 @@ export class Activity {
   private map: Leaflet.Map;
   private marker: Leaflet.Marker;
   private activity: ActivityModel;
+  private length: number;
   private ACTIVITY_KEY = 'ACTIVITY';
   private locationSubScription: Subscription;
   private timerSubscritpion: Subscription;
@@ -48,7 +46,6 @@ export class Activity {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private locationService: LocationService,
-    private geojsonService: GeojsonService,
     private storageService: StorageService,
     private trackerService: TrackerService,
     public loadingCtrl: LoadingController,
@@ -96,6 +93,7 @@ export class Activity {
 
   private updateLocation(location) {
     this.activity.addCoordinates(location.lng, location.lat);
+    this.length = this.activity.length;
     this.map.panTo(location);
     if (!this.marker) {
       this.marker = Leaflet.marker(location).addTo(this.map);

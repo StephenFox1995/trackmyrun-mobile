@@ -1,26 +1,27 @@
+import { lineDistance, lineString } from '@turf/turf';
+import { Feature, LineString } from "@types/geojson";
+
 export class ActivityModel {
   private name: string;
   private type: string;
   private userID: number;
   private start: Date;
   private end: Date;
-  private route = { 
-    type: 'Feature',
-    geometry: {
-      type: 'MultiLineString',
-      coordinates: [[]]
-    },
-    properties: {}
+  length: number;
+  private route: Feature<LineString>;
+
+  constructor() { 
+    this.route = lineString([]);
   }
 
-  constructor() { }
-
   private addToGeoJSONProperties(name, data) {
+    console.log(this.route);
     this.route.properties[name] = data;
   }
 
   addCoordinates(lng, lat) {
-    this.route.geometry.coordinates[0].push([lng, lat]);
+    this.route.geometry.coordinates.push([lng, lat]);
+    this.length = lineDistance(this.route, 'kilometers');
   }
   getGeoJSON() {
     return this.route;

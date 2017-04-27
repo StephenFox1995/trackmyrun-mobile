@@ -14,9 +14,9 @@
 
 
 <ion-content padding class="scroll-content">
-  <h1>Current Time: {{activityTime}}</h1>
-  <button ion-button round outline (click)="pause()">Pause </button>
-  <div id="map"></div>
+  <ion-label>Current Time: {{activityTime}}</ion-label>
+  <ion-label>Distance(km): {{length | number}}</ion-label>
   <button ion-button round outline (click)="finishActivity()">Done</button>
+  <div id="map"></div>
   
 </ion-content>

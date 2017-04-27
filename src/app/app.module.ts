@@ -18,7 +18,6 @@ import { ActivityDisplay } from '../pages/activity-display/activity-display'
 import { Register } from '../pages/register/register';
 import { TrackerService } from '../providers/tracker-service';
 import { LocationService } from '../providers/location-service';
-import { GeojsonService } from '../providers/geojson-service';
 
 @NgModule({
   declarations: [
@@ -54,8 +53,7 @@ import { GeojsonService } from '../providers/geojson-service';
     StorageService,
     TrackerService,
     LocationService,
-    Geolocation,
-    GeojsonService
+    Geolocation
   ]
 })
 export class AppModule {}
