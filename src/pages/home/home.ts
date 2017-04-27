@@ -3,6 +3,7 @@ import { NavController, LoadingController, Loading, AlertController } from 'ioni
 import { TrackerService } from '../../providers/tracker-service';
 import { ActivityDisplay } from '../activity-display/activity-display';
 import { NewActivity } from '../new-activity/new-activity';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-home',
@@ -27,12 +28,23 @@ export class HomePage {
     this.showLoading();
     this.trackerService.getActivities()
       .subscribe(activities => {
+        this.calculateTime(activities);
         this.activities = activities;
         this.loading.dismiss();
       }, err => {
         this.showError('Could not load activities');
       });
   }
+
+  private calculateTime(activities) {
+    activities = activities.map((activity) => {
+      var start = moment(activity.properties.start);
+      var end = moment(activity.properties.end);
+      activity.properties['duration'] = moment(end.diff(start)).format("HH:mm:ss");
+      return activity;
+    });
+  }
+
 
   newActivity(activityForDisplay) {
     this.navCtrl.push(NewActivity);

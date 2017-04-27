@@ -18,11 +18,11 @@
       Recent Activities
     </ion-list-header>
     <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)">
-      <p>{{activity.properties.start}}</p>
-      <p>{{activity.properties.end}}</p>
-      <p>{{activity.properties.activity_type}}</p>
-      <p>{{activity.properties.owner_id}}</p>
-      <p>{{activity.properties.distance | number}} km</p>
+      <p><b>User:</b> {{activity.properties.owner_id}}</p>
+      <p><b>Date:</b>  {{activity.properties.start | date:"MM/dd/yyyy"}}</p>
+      <p><b>Type:</b>  {{activity.properties.activity_type}}</p>
+      <p><b>Distance (kms):</b>  {{activity.properties.distance | number}}</p>
+      <p><b>Duration:</b> {{activity.properties.duration}}</p>
     </ion-item>
   </ion-list>
 
