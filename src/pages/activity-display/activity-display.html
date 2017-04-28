@@ -12,16 +12,11 @@
 </ion-header>
 
 
-<ion-content padding class="scroll-content">
-  <ion-list>
-    <ion-item-group (ngModel)="activity">
-      <ion-item>
-        <ion-label fixed>Date {{activity.properties.start}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label fixed>Type {{activity.properties.activity_type}}</ion-label>
-      </ion-item>      
-    </ion-item-group>
-  </ion-list>
+<ion-content padding class="scroll-content" (ngModel)="activity">
+  <ion-label>Username: {{activity.properties.owner.username}}</ion-label>
+  <ion-label>Date: {{activity.properties.start | date: 'medium'}}</ion-label>
+  <ion-label>Distance (kms): {{activity.properties.distance | number}}</ion-label>
+  <ion-label>Duration: {{activity.properties.duration}}</ion-label>
+  <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.properties.activity_type}}</ion-label>
   <div id="map"></div>
 </ion-content>

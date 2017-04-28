@@ -1,6 +1,8 @@
+import { ip, localhost } from './ip';
 import { Headers } from '@angular/http';
 
-export let baseurl = 'http://Stephens-MacBook-Pro-4.local:8000';
+
+export let baseurl = `${localhost}:8000`;
 export let api = '/api'
 
 /**
