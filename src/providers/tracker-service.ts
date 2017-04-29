@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { activityEnpoint, defaultHeaders, activityForUserEndpoint } from '../helpers/url';
+import { activityEnpoint, defaultHeaders, activityForOwnerEndpoint } from '../helpers/url';
 import { AuthService } from '../providers/auth-service';
 import { Observable } from "rxjs/Observable";
 
@@ -17,11 +17,11 @@ export class TrackerService {
     private http: Http, 
     private authService: AuthService) { }
   
-  public getActivities(forUser=false) {
+  public getActivities(userID=undefined) {
     return Observable.create(observer => {
       var endpoint = null;
-      if (forUser) {
-        endpoint = activityForUserEndpoint;
+      if (userID) {
+        endpoint = activityForOwnerEndpoint(userID);
       } else {
         endpoint = activityEnpoint;
       }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { TrackerService } from '../../providers/tracker-service';
+import { ActivityModel } from '../../models/activity-model';
 
 /**
  * Generated class for the User page.
@@ -14,20 +15,53 @@ import { TrackerService } from '../../providers/tracker-service';
   templateUrl: 'user.html',
 })
 export class User {
-  username: string;
+  
+  private owner: any;
+  activities: Array<ActivityModel>;
+  private loading: Loading;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private trackerService: TrackerService) {
-    this.username = navParams.get('username');    
+    private trackerService: TrackerService,
+    public loadingCtrl: LoadingController, 
+    private alertCtrl: AlertController) {
+    this.owner = navParams.get('owner');   
   }
 
   ionViewDidLoad() {
-    
+    this.triggerNetworkLoad();
   }
 
   private triggerNetworkLoad() {
+    this.showLoading();
+    this.trackerService.getActivities(this.owner.id)
+      .subscribe(activities => {
+        this.activities = ActivityModel.fromFeatureCollection(activities);
+        this.loading.dismiss();
+      }, err => {
+        this.showError(`Could not load activities for ${this.owner.username}`);
+      });
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading activities...'
+    });
+    this.loading.present();
+  }
+
+  showError(text) {
+    setTimeout(() => {
+      this.loading.dismiss();
+    });
+ 
+    let alert = this.alertCtrl.create({
+      title: 'Fail',
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present(prompt);
   }
 
 }

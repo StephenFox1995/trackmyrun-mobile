@@ -12,7 +12,7 @@ import { ActivityModel } from '../../models/activity-model';
 })
 export class HomePage {
   
-  activities : any;
+  activities : Array<ActivityModel>;
   private loading: Loading;
   
   constructor(

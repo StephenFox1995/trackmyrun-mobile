@@ -5,26 +5,23 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>user</ion-title>
+    <ion-title>{{owner.username}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
     <ion-list-header>
-      Activities for {{username}}
+      Activities
     </ion-list-header>
     <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)" text-wrap>
-      <p>{{activity.getStart() | date:"medium"}}
-        <p>
-          <ion-label>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
-          <ion-label>Distance (kms): {{activity.getDistance() | number}}</ion-label>
-          <ion-label>Duration: {{activity.getDuration()}}</ion-label>
-          <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.getType()}}</ion-label>
+      <ion-label>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
+      <ion-label>Distance (kms): {{activity.getDistance() | number}}</ion-label>
+      <ion-label>Duration: {{activity.getDuration()}}</ion-label>
+      <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.getType()}}</ion-label>
+
     </ion-item>
   </ion-list>
 </ion-content>

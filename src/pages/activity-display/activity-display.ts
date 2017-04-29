@@ -19,25 +19,17 @@ import { ActivityModel } from '../../models/activity-model';
 })
 export class ActivityDisplay {
   private map: Leaflet.Map;
-  private center: Leaflet.PointTuple;
-  activity: any;
+  activity: ActivityModel;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public locationService: LocationService) { 
-    this.activity = <ActivityModel>navParams.get('activity');
+    this.activity = navParams.get('activity') as ActivityModel;
   }
 
   ionViewDidLoad() {
     this.initMap();
-    
-    this.locationService.getCurrentLocation()
-      .subscribe((lat, lng) => {
-        this.center = [lat, lng];
-    }, (error) => {
-      console.log('An error occurred tracking location');
-    })
   }
 
 
@@ -54,6 +46,6 @@ export class ActivityDisplay {
   }
 
   showUser(user) {
-    this.navCtrl.push(User, { username: this.activity.getOwner().username });
+    this.navCtrl.push(User, { owner: this.activity.getOwner() });
   }
 }

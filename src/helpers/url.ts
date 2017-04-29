@@ -22,6 +22,8 @@ export let defaultHeaders = () => {
 }
 
 export let activityEnpoint = `${baseurl}${api}/activity`;
-export let activityForUserEndpoint = `${baseurl}${api}/activity/user`;
+export let activityForOwnerEndpoint = (id) => { 
+    return `${baseurl}${api}/activity/owner/${id}` 
+};
 
 export let mapLayer = `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
