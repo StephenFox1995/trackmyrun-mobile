@@ -16,15 +16,15 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header>
-      Recent Activities
+      Activities for {{username}}
     </ion-list-header>
     <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)" text-wrap>
-      <p>{{activity.properties.start | date:"medium"}}
+      <p>{{activity.getStart() | date:"medium"}}
         <p>
-          <ion-label>Date: {{activity.properties.start | date: 'medium'}}</ion-label>
-          <ion-label>Distance (kms): {{activity.properties.distance | number}}</ion-label>
-          <ion-label>Duration: {{activity.properties.duration}}</ion-label>
-          <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.properties.activity_type}}</ion-label>
+          <ion-label>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
+          <ion-label>Distance (kms): {{activity.getDistance() | number}}</ion-label>
+          <ion-label>Duration: {{activity.getDuration()}}</ion-label>
+          <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.getType()}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

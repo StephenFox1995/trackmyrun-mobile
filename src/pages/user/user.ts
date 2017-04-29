@@ -14,11 +14,13 @@ import { TrackerService } from '../../providers/tracker-service';
   templateUrl: 'user.html',
 })
 export class User {
+  username: string;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private trackerService: TrackerService) {
+    this.username = navParams.get('username');    
   }
 
   ionViewDidLoad() {

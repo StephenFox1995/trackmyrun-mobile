@@ -6,21 +6,18 @@ export class ActivityModel {
   private feature: Feature<LineString>;
 
   constructor(feature=undefined) { 
-    if (!feature) {
-      this.feature = lineString([]);
-      this.setProperty('kilometers', 0)
-    } else {
+    if (feature) {
       this.feature = lineString(feature.geometry.coordinates, feature.properties)
       this.setTransientFields();
+    } else {
+      this.feature = lineString([]);
+      this.setProperty('kilometers', 0)
     }
   }
 
   static fromFeatureCollection(collection) : Array<ActivityModel> {
     let features = collection.features;
-    return features.map((feature) => {
-      console.log(feature);
-      return new ActivityModel(feature)
-    });
+    return features.map((feature) => new ActivityModel(feature));
   }
 
   /**
@@ -105,6 +102,12 @@ export class ActivityModel {
   }
   getDistance() {
     return this.getProperty('distance');
+  }
+  getDuration() {
+    return this.getProperty('duration');
+  }
+  getCoordinates() {
+    return this.feature.geometry.coordinates;
   }
   asGeoJSON() {
     return this.feature;

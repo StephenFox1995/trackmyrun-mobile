@@ -4,7 +4,7 @@ import * as Leaflet from "leaflet";
 import { User } from '../user/user';
 import { mapLayer } from '../../helpers/url';
 import { LocationService } from '../../providers/location-service';
-
+import { ActivityModel } from '../../models/activity-model';
 
 /**
  * Generated class for the ActivityDisplay page.
@@ -22,8 +22,11 @@ export class ActivityDisplay {
   private center: Leaflet.PointTuple;
   activity: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public locationService: LocationService) { 
-    this.activity = navParams.get('activity');
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public locationService: LocationService) { 
+    this.activity = <ActivityModel>navParams.get('activity');
   }
 
   ionViewDidLoad() {
@@ -39,22 +42,18 @@ export class ActivityDisplay {
 
 
   private initMap() {
-    console.log()
     this.map = Leaflet.map('map', {
-      center: [this.activity.geometry.coordinates[0][1], this.activity.geometry.coordinates[0][0]],
+      center: [this.activity.getCoordinates()[0][1], this.activity.getCoordinates()[0][0]],
       zoom: 15
     });
-
     Leaflet.tileLayer(mapLayer, {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
-
-    Leaflet.geoJSON(this.activity).addTo(this.map);
+    Leaflet.geoJSON(this.activity.asGeoJSON()).addTo(this.map);
   }
 
   showUser(user) {
-    console.log(user);
-    this.navCtrl.push(User);
+    this.navCtrl.push(User, { username: this.activity.getOwner().username });
   }
 }
