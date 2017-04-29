@@ -1,73 +1,112 @@
 import { lineDistance, lineString } from '@turf/turf';
-import { Feature, LineString } from "@types/geojson";
+import { Feature, LineString } from '@types/geojson';
+import { activityDuration } from '../helpers/activity-duration';
 
 export class ActivityModel {
-  private name: string;
-  private type: string;
-  private userID: number;
-  private start: Date;
-  private end: Date;
-  distance: number;
-  private route: Feature<LineString>;
+  private feature: Feature<LineString>;
 
-  constructor() { 
-    this.route = lineString([]);
-    this.addToGeoJSONProperties('kilometers', 0)
+  constructor(feature=undefined) { 
+    if (!feature) {
+      this.feature = lineString([]);
+      this.setProperty('kilometers', 0)
+    } else {
+      this.feature = lineString(feature.geometry.coordinates, feature.properties)
+      this.setTransientFields();
+    }
   }
 
-  private addToGeoJSONProperties(name, data) {
-    this.route.properties[name] = data;
+  static fromFeatureCollection(collection) : Array<ActivityModel> {
+    let features = collection.features;
+    return features.map((feature) => {
+      console.log(feature);
+      return new ActivityModel(feature)
+    });
   }
 
+  /**
+   * Set a property on the feature object.
+   * @param name The name of the property
+   * @param data The value of the property.
+   */
+  private setProperty(name, data) {
+    this.feature.properties[name] = data;
+  }
+
+  /**
+   * Returns a property on the 
+   * @param name The name of the property.
+   */
+  private getProperty(name) {
+    return this.feature.properties[name];
+  }
+  
+  /**
+   * Sets any transient fields such as duration of the activity.
+   */
+  private setTransientFields() {
+    // Set the duration field.
+    this.setProperty(
+      'duration',
+      activityDuration(this.getProperty('start'), this.getProperty('end'))
+    );
+  }
+  
+  /**
+   * Adds coordinates to the linestring of the activity.
+   * @param lng The longtitude
+   * @param lat The latitude
+   */
   addCoordinates(lng, lat) {
-    this.route.geometry.coordinates.push([lng, lat]);
-    this.route.properties['distance'] = lineDistance(this.route, 'kilometers');
-    this.distance = this.route.properties['distance'];
+    this.feature.geometry.coordinates.push([lng, lat]);
+    this.setProperty('distance', lineDistance(this.feature, 'kilometers'));
   }
   getGeoJSON() {
-    return this.route;
+    return this.feature;
   }
-  setUser(userID) {
-    this.userID = userID;
+  setUserID(userID) {
+    this.setProperty('userID', userID);
   }
-  getUser() {
-    return this.userID;
+  getUserID() {
+    this.getProperty('userID');
   }
   setName(name) {
-    this.name = name;
-    this.addToGeoJSONProperties('name', name);
+    this.setProperty('name', name);
   }
   getName() {
-    return this.name;
+    this.getProperty('name');
   }
   setType(type) {
-    if (type === 'RUN' || type === 'WALK') {
-      this.type = type;
-      this.addToGeoJSONProperties('activity_type', type);
+    if (type === 'Run' || type === 'Walk') {
+      this.setProperty('activity_type', type);
     } else {
-      throw(new Error(`${type} is an invalid ActivityModel type`))
+      throw(new Error(`${type} is an invalid activity_type value.`))
     }
-    this.type = type;
-    this.addToGeoJSONProperties('activity_type', type);
   }
   getType() {
-    return this.type;
+    return this.getProperty('activity_type');
   }
   setStart(start) {
-    this.start = start;
-    this.addToGeoJSONProperties('start', start);
+    this.setProperty('start', start);
   }
   getStart() {
-    return this.start;
+    return this.getProperty('start');
   }
   setEnd(end) {
-    this.end = end;
-    this.addToGeoJSONProperties('end', end);
+    this.setProperty('end', end);
   }
   getEnd() {
-    return this.end;
+    return this.getProperty('end');
+  }
+  setOwner(owner) {
+    this.setProperty('owner', owner);
+  }
+  getOwner() {
+    return this.getProperty('owner');
+  }
+  getDistance() {
+    return this.getProperty('distance');
   }
   asGeoJSON() {
-    return this.route;
+    return this.feature;
   }
 }

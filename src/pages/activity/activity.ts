@@ -93,7 +93,7 @@ export class Activity {
 
   private updateLocation(location) {
     this.activity.addCoordinates(location.lng, location.lat);
-    this.distance = this.activity.distance;
+    this.distance = this.activity.getDistance();
     this.map.panTo(location);
     if (!this.marker) {
       this.marker = Leaflet.marker(location).addTo(this.map);
@@ -109,7 +109,7 @@ export class Activity {
   }
 
   private humanReadableTime(time) {
-    return moment(time).format('mm:ss:SSS');
+    return moment(time).format('mm:ss:SS');
   }
   
   private stopTimer() {

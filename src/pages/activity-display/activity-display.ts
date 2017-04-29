@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as Leaflet from "leaflet";
-
+import { User } from '../user/user';
 import { mapLayer } from '../../helpers/url';
 import { LocationService } from '../../providers/location-service';
 
@@ -37,7 +37,8 @@ export class ActivityDisplay {
     })
   }
 
-  initMap() {
+
+  private initMap() {
     console.log()
     this.map = Leaflet.map('map', {
       center: [this.activity.geometry.coordinates[0][1], this.activity.geometry.coordinates[0][0]],
@@ -52,4 +53,8 @@ export class ActivityDisplay {
     Leaflet.geoJSON(this.activity).addTo(this.map);
   }
 
+  showUser(user) {
+    console.log(user);
+    this.navCtrl.push(User);
+  }
 }

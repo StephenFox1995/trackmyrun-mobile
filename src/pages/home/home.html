@@ -18,14 +18,13 @@
       Recent Activities
     </ion-list-header>
     <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)" text-wrap>
-      <p class="activity-date">{{activity.properties.start | date:"medium"}}<p>
+      <p class="activity-date">{{activity.getStart() | date:"medium"}}<p>
       <p class="activity-details">
-        <b>{{activity.properties.owner.username}} </b> 
+        <b>{{activity.getOwner().username}} </b> 
         went for a 
-        <b>  {{activity.properties.distance | number}}  </b> km 
-        <span style="text-transform: lowercase;"> {{activity.properties.activity_type}} </span>
+        <b>  {{activity.getDistance() | number}}  </b> km 
+        <span style="text-transform: lowercase;"> {{activity.getType()}} </span>
       </p>
     </ion-item>
   </ion-list>
-
 </ion-content>

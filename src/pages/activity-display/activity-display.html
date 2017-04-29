@@ -14,6 +14,7 @@
 
 <ion-content padding class="scroll-content" (ngModel)="activity">
   <ion-label>Username: {{activity.properties.owner.username}}</ion-label>
+  <button (click)="showUser(activity.properties.owner)">See more activities by this user...</button>
   <ion-label>Date: {{activity.properties.start | date: 'medium'}}</ion-label>
   <ion-label>Distance (kms): {{activity.properties.distance | number}}</ion-label>
   <ion-label>Duration: {{activity.properties.duration}}</ion-label>

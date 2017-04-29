@@ -17,6 +17,7 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
+      
       authService.getToken()
         .subscribe(token => {
           if (token) {
