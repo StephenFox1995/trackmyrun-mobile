@@ -20,12 +20,14 @@ import { ActivityModel } from '../../models/activity-model';
 export class ActivityDisplay {
   private map: Leaflet.Map;
   activity: ActivityModel;
+  leafletMapID: string;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public locationService: LocationService) { 
     this.activity = navParams.get('activity') as ActivityModel;
+    this.leafletMapID = "map-" + Date.now();
   }
 
   ionViewDidLoad() {
@@ -34,7 +36,8 @@ export class ActivityDisplay {
 
 
   private initMap() {
-    this.map = Leaflet.map('map', {
+    
+    this.map = Leaflet.map(this.leafletMapID, {
       center: [this.activity.getCoordinates()[0][1], this.activity.getCoordinates()[0][0]],
       zoom: 15
     });
@@ -42,6 +45,7 @@ export class ActivityDisplay {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
+    Leaflet.geoJSON(this.activity.asGeoJSON()).addTo(this.map);
   }
 
   showUser(user) {

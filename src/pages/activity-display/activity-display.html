@@ -12,13 +12,12 @@
 </ion-header>
 
 
-<ion-content padding class="scroll-content" (ngModel)="activity">
+<ion-content id="content" padding class="scroll-content" (ngModel)="activity">
   <ion-label>Username: {{activity.getOwner().username}}</ion-label>
   <button (click)="showUser(activity.getOwner())">See more activities by this user...</button>
   <ion-label>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
   <ion-label>Distance (kms): {{activity.getDistance() | number}}</ion-label>
   <ion-label>Duration: {{activity.getDuration()}}</ion-label>
   <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.getType()}}</ion-label>
-  <div id="map"></div>
-  <div id="map2"></div>
+  <div class="map" id="{{leafletMapID}}"></div>
 </ion-content>
