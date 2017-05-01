@@ -36,7 +36,6 @@ export class ActivityDisplay {
 
 
   private initMap() {
-    
     this.map = Leaflet.map(this.leafletMapID, {
       center: [this.activity.getCoordinates()[0][1], this.activity.getCoordinates()[0][0]],
       zoom: 15

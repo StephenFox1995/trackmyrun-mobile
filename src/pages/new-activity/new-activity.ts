@@ -37,10 +37,6 @@ export class NewActivity {
   }
   
   startActivity() {
-    if (!this.activityName) {
-      this.showAlert('Please give a name for this activity');
-      return
-    }
     if (!this.activityType) {
       this.showAlert('Please select activity type');
       return
