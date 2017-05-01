@@ -42,7 +42,6 @@ export class ActivityDisplay {
       attribution: '',
       maxZoom: 18
     }).addTo(this.map);
-    Leaflet.geoJSON(this.activity.asGeoJSON()).addTo(this.map);
   }
 
   showUser(user) {

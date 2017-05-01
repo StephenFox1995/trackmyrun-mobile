@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { TrackerService } from '../../providers/tracker-service';
 import { ActivityModel } from '../../models/activity-model';
+import { ActivityDisplay } from '../activity-display/activity-display';
 
 /**
  * Generated class for the User page.
@@ -62,6 +63,10 @@ export class User {
       buttons: ['OK']
     });
     alert.present(prompt);
+  }
+
+  showActivity(activityForDisplay) {
+    this.navCtrl.push(ActivityDisplay, { activity: activityForDisplay, sourceController: 'user' });
   }
 
 }

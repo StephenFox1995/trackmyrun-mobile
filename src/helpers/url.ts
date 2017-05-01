@@ -26,4 +26,4 @@ export let activityForOwnerEndpoint = (id) => {
     return `${baseurl}${api}/activity/owner/${id}` 
 };
 
-export let mapLayer = `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
+export let mapLayer = `http://{s}.tile.osm.org/{z}/{x}/{y}.png`;

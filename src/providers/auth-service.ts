@@ -101,8 +101,8 @@ export class AuthService {
   public logout() {
     return Observable.create(observer => {
       this.currentUser = null;
+      this.storageService.remove(this.tokenKey);
       observer.next(true);
-      observer.complete();
     });
   }
 

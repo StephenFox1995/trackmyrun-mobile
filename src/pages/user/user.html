@@ -16,12 +16,11 @@
     <ion-list-header>
       Activities
     </ion-list-header>
-    <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)" text-wrap>
-      <ion-label>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
-      <ion-label>Distance (kms): {{activity.getDistance() | number}}</ion-label>
-      <ion-label>Duration: {{activity.getDuration()}}</ion-label>
-      <ion-label class="activity-type" style="text-transform: capitalize;">Type: {{activity.getType()}}</ion-label>
-
+    <ion-item *ngFor="let activity of activities" (click)="showActivity(activity)">
+      <ion-label stacked>Date: {{activity.getStart() | date: 'medium'}}</ion-label>
+      <ion-label stacked>Distance (kms): {{activity.getDistance() | number}}</ion-label>
+      <ion-label stacked>Duration: {{activity.getDuration()}}</ion-label>
+      <ion-label stacked>Type: {{activity.getType()}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

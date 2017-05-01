@@ -3,8 +3,9 @@ import { NavController, LoadingController, Loading, AlertController } from 'ioni
 import { TrackerService } from '../../providers/tracker-service';
 import { ActivityDisplay } from '../activity-display/activity-display';
 import { NewActivity } from '../new-activity/new-activity';
+import { Login } from '../login/login';
 import { ActivityModel } from '../../models/activity-model';
-
+import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +20,8 @@ export class HomePage {
     public navCtrl: NavController, 
     public trackerService: TrackerService, 
     public loadingCtrl: LoadingController, 
-    private alertCtrl: AlertController) { }
+    private alertCtrl: AlertController,
+    private authService: AuthService) { }
 
   ionViewDidLoad() {
     this.triggerNetworkLoad();
@@ -41,7 +43,7 @@ export class HomePage {
   }
   
   showActivity(activityForDisplay) {
-    this.navCtrl.push(ActivityDisplay, { activity: activityForDisplay });
+    this.navCtrl.push(ActivityDisplay, { activity: activityForDisplay, sourceController: 'home' });
   }
   
   showLoading() {
@@ -66,5 +68,13 @@ export class HomePage {
 
   refresh() {
     this.triggerNetworkLoad();
+  }
+
+  logout() {
+    this.authService.logout().subscribe(success => {
+      this.navCtrl.setRoot(Login);
+    }, err => {
+      this.showError('could not log out');
+    })
   }
 }
