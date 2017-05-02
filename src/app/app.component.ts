@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, enableProdMode } from '@angular/core';
+import { Platform,  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
@@ -7,6 +7,8 @@ import { Login } from '../pages/login/login'
 import { AuthService } from '../providers/auth-service';
 
 import 'rxjs';
+
+enableProdMode();
 
 @Component({
   templateUrl: 'app.html'

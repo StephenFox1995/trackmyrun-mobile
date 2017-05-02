@@ -10,7 +10,6 @@ import { ActivityModel } from '../../models/activity-model';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
 @Component({
   selector: 'page-new-activity',
   templateUrl: 'new-activity.html',
